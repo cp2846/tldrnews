@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <title>Tl;DrNews - Auto-Condensed News Feed</title>
+        <link rel="stylesheet" type="text/css" href="styles/ink/css/ink.min.css"> <!-- inks css file -->
+        <link rel="stylesheet" type="text/css" href="styles/main.css"> <!-- inks css file -->
+        <script src="scripts/vue/vue.js" type="text/javascript"></script>
+        
+        
+    </head>
+    
+    
+    
+    <body>
+        <nav class="ink-navigation fixed-nav">
+            <ul class="menu horizontal black">
+                <li><a href="/about" id="logo">Tl;Dr<span style="color:#e14283;">News</span></a></li>
+            </ul>
+        </nav>
+        <div class="ink-grid">
+            <div class="column-group">
+                <div class="all-70 medium-100 small-100 tiny-100 article" id="sources">
+
+                    <img v-for="source in sources" v-bind:class="{ disabled: source.disabled }" :src="getIconLink(source)" v-on:click="toggleSource(source)" class="source-icon"/>
+                </div>
+            </div>
+            <div class="column-group" id="articles">
+                
+                
+                <div v-for="article in articles" class="all-70 medium-100 small-100 tiny-100 article unopened">
+                    
+                        <img class="article-icon" :src="getIconLink(article)" />
+                        <div class="article-image-wrapper">
+                            <img class="article-image" v-bind:style="{ 'background-image': 'url(' + getImageUrl(article) + ')' }" />
+                        </div>
+                        <div class="fadeaway" onclick="openArticle(event)"></div>
+                        <div class="article-text">
+                        
+                            <a v-bind:href="article.url" target="_blank"><h3 class="title">{{ article.title }}</h3></a>
+                            <p class="gray">Via {{ article.source }}</p>
+                            <p class="article-body">{{ article.summary }}</p>
+                            
+                        </div>
+                    
+                </div>
+                
+                
+                
+            </div>
+        </div>
+        
+        <script src="scripts/home.js" type="text/javascript"></script>
+    </body>
+
+</html>

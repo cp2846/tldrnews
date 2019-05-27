@@ -1,0 +1,22 @@
+{
+  "name": "tldrnews",
+  "version": "1.0.0",
+  "description": "an aggregated feed of auto-summarized news articles",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.3",
+    "forever-monitor": "^1.7.1",
+    "languagedetect": "^1.1.1",
+    "mongoose": "^5.2.13",
+    "node-cron": "^2.0.3",
+    "node-tldr": "^0.4.14",
+    "request": "^2.88.0"
+  }
+}

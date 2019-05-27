@@ -1,0 +1,722 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>CBS News API - Live news headlines and articles from CBS News</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Get and search live article metadata and images from CBS News in JSON format.">
+    <meta name="keywords" content="news api, api, news headlines">
+
+    <!-- Schema.org for Google -->
+    <meta itemprop="name" content="CBS News API - Live news headlines and articles from CBS News">
+    <meta itemprop="description" content="Get and search live article metadata and images from CBS News in JSON format.">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CBS News API - Live news headlines and articles from CBS News">
+    <meta name="twitter:description" content="Get and search live article metadata and images from CBS News in JSON format.">
+    <meta name="twitter:site" content="@NewsAPIorg">
+    <meta name="twitter:creator" content="@NewsAPIorg">
+    <!-- Open Graph general (Facebook, Pinterest & Google+) -->
+    <meta name="og:title" content="CBS News API - Live news headlines and articles from CBS News">
+    <meta name="og:description" content="Get and search live article metadata and images from CBS News in JSON format.">
+    <meta name="og:url" content="https://newsapi.org">
+    <meta name="og:site_name" content="News API">
+    <meta name="og:locale" content="en_US">
+    <meta name="og:type" content="website">
+
+    <link rel="canonical" href="https://newsapi.org/s/cbs-news-api">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.9.0/tachyons.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Bree+Serif" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jsonview/1.2.3/jquery.jsonview.min.css" />
+    <style>.jsonview .prop { color:#000; }</style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.5/ladda-themeless.min.css" />
+    <link rel="stylesheet" href="/css/v2.css?v=1.0.6815.41096" />
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-17563040-17', 'auto');
+        ga('send', 'pageview');
+    </script>
+</head>
+<body class="black-60 ma0">
+    <div class="center-l fixed left-0 mh3 mw6-l w-third-l right-0 top-1 z-5" id="alert-container">
+        
+    </div>
+
+    
+
+
+
+
+<!-- Top navbar & branding -->
+<header class="bg-white pv3 pv4-l bb b--black-10 fixed top-0 left-0 right-0" style="z-index:10;">
+    <div class="w-90 mw8 center flex justify-between items-center">
+        <div class="nav-logo mv0 normal f3 black-90"><a class="color-inherit no-underline" href="/">News API</a></div>
+        
+        <ul class="list mv0 pl0 flex items-center">
+            <li class="dn dib-l mr4">
+                <a class="no-underline color-inherit dim pv2" href="/docs/get-started">Get started</a>
+            </li>
+            <li class="dn dib-l mr4">
+                <a class="no-underline color-inherit dim pv2" href="/docs">Documentation</a>
+            </li>
+            <li class="dn dib-l mr4">
+                <a class="no-underline color-inherit dim pv2" href="/sources">News sources</a>
+            </li>
+            <li class="dn dib-l mr4">
+                <a class="no-underline color-inherit dim pv2" href="/pricing">Pricing</a>
+            </li>
+                <li class="dn dib-l mr4">
+                    <a class="no-underline color-inherit dim pv2" href="/login">Login</a>
+                </li>
+                <li class="dib">
+                    <a class="no-underline dim bg-na-blue pv2 ph3 br2 white" href="/register">Get API key</a>
+                </li>
+            <li class="dn-l dib ml4">
+                <button id="open-menu-btn" class="color-inherit bn bg-white db f2 ph1 pv0">
+                    <i class="fa fa-bars"></i>
+                </button>                
+                <div class="bg-white bb b--black-20 pa2 fixed left-0 right-0 h-100" id="menu" style="overflow:auto; top:-120%; transition: all 500ms ease-in-out; z-index:20">
+                    <div class="absolute top-2 right-2">
+                        <button id="close-menu-btn" class="color-inherit bn bg-white db f2 ph1 pv0">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <ul class="list mv0 pa4 f2">
+                        <li class="mb4">
+                            <a class="no-underline color-inherit dim" href="/docs/get-started">Get started</a>
+                        </li>
+                        <li class="mb4">
+                            <a class="no-underline color-inherit dim" href="/docs">Documentation</a>
+                        </li>
+                        <li class="mb4">
+                            <a class="no-underline color-inherit dim" href="/sources">News sources</a>
+                        </li>
+                        <li class="mb4">
+                            <a class="no-underline color-inherit dim" href="/pricing">Pricing</a>
+                        </li>
+                            <li class="bt b--black-10 pt4 mb4">
+                                <a class="no-underline color-inherit dim" href="/login">Login</a>
+                            </li>
+                            <li class="">
+                                <a class="no-underline dim bg-na-blue pv2 ph3 br2 white" href="/register">Get API key</a>
+                            </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</header>
+<!-- END Top navbar & branding -->
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '#open-menu-btn', function () {
+            $('#menu').css('top', '0');
+        })
+        $(document).on('click', '#close-menu-btn', function () {
+            $('#menu').css('top', '-100%');
+        })
+    });
+</script>
+
+
+<style>
+    h2 { margin-bottom:10px;}
+</style>
+
+<div class="flex justify-center mv5 mv6-l">
+    <!-- Sidebar -->
+    <aside class="br b--black-10 dn mw5 w-20 pr4 mr4 db-l">
+        <h3 class="black-90 f5 ttu"><a class="no-underline color-inherit" href="/sources">News sources</a></h3>
+        <div class="f7 black-60">Showing 138 of 30,000+ publishers</div>
+        <ul class="f5 list pl0">
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/abc-news-api">ABC News <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/abc-news-au-api">ABC News (AU) <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/aftenposten-api">Aftenposten <span class="black-40 f7 ml2">general / no</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/al-jazeera-english-api">Al Jazeera English <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/ansa-api">ANSA.it <span class="black-40 f7 ml2">general / it</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/argaam-api">Argaam <span class="black-40 f7 ml2">business / ar</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/ars-technica-api">Ars Technica <span class="black-40 f7 ml2">technology / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/ary-news-api">Ary News <span class="black-40 f7 ml2">general / ud</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/associated-press-api">Associated Press <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/australian-financial-review-api">Australian Financial Review <span class="black-40 f7 ml2">business / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/axios-api">Axios <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/bbc-news-api">BBC News <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/bbc-sport-api">BBC Sport <span class="black-40 f7 ml2">sports / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/bild-api">Bild <span class="black-40 f7 ml2">general / de</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/blasting-news-br-api">Blasting News (BR) <span class="black-40 f7 ml2">general / pt</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/bleacher-report-api">Bleacher Report <span class="black-40 f7 ml2">sports / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/bloomberg-api">Bloomberg <span class="black-40 f7 ml2">business / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/breitbart-news-api">Breitbart News <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/business-insider-api">Business Insider <span class="black-40 f7 ml2">business / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/business-insider-uk-api">Business Insider (UK) <span class="black-40 f7 ml2">business / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/buzzfeed-api">Buzzfeed <span class="black-40 f7 ml2">entertainment / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/cbc-news-api">CBC News <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/cbs-news-api">CBS News <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/cnbc-api">CNBC <span class="black-40 f7 ml2">business / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/cnn-api">CNN <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/cnn-es-api">CNN Spanish <span class="black-40 f7 ml2">general / es</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/crypto-coins-news-api">Crypto Coins News <span class="black-40 f7 ml2">technology / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/daily-mail-api">Daily Mail <span class="black-40 f7 ml2">entertainment / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/der-tagesspiegel-api">Der Tagesspiegel <span class="black-40 f7 ml2">general / de</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/die-zeit-api">Die Zeit <span class="black-40 f7 ml2">business / de</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/el-mundo-api">El Mundo <span class="black-40 f7 ml2">general / es</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/engadget-api">Engadget <span class="black-40 f7 ml2">technology / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/entertainment-weekly-api">Entertainment Weekly <span class="black-40 f7 ml2">entertainment / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/espn-api">ESPN <span class="black-40 f7 ml2">sports / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/espn-cric-info-api">ESPN Cric Info <span class="black-40 f7 ml2">sports / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/financial-post-api">Financial Post <span class="black-40 f7 ml2">business / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/financial-times-api">Financial Times <span class="black-40 f7 ml2">business / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/focus-api">Focus <span class="black-40 f7 ml2">general / de</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/football-italia-api">Football Italia <span class="black-40 f7 ml2">sports / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/fortune-api">Fortune <span class="black-40 f7 ml2">business / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/four-four-two-api">FourFourTwo <span class="black-40 f7 ml2">sports / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/fox-news-api">Fox News <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/fox-sports-api">Fox Sports <span class="black-40 f7 ml2">sports / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/globo-api">Globo <span class="black-40 f7 ml2">general / pt</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/google-news-api">Google News <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/google-news-ar-api">Google News (Argentina) <span class="black-40 f7 ml2">general / es</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/google-news-au-api">Google News (Australia) <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/google-news-br-api">Google News (Brasil) <span class="black-40 f7 ml2">general / pt</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/google-news-ca-api">Google News (Canada) <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/google-news-fr-api">Google News (France) <span class="black-40 f7 ml2">general / fr</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/google-news-in-api">Google News (India) <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/google-news-is-api">Google News (Israel) <span class="black-40 f7 ml2">general / he</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/google-news-it-api">Google News (Italy) <span class="black-40 f7 ml2">general / it</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/google-news-ru-api">Google News (Russia) <span class="black-40 f7 ml2">general / ru</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/google-news-sa-api">Google News (Saudi Arabia) <span class="black-40 f7 ml2">general / ar</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/google-news-uk-api">Google News (UK) <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/goteborgs-posten-api">G&#246;teborgs-Posten <span class="black-40 f7 ml2">general / se</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/gruenderszene-api">Gruenderszene <span class="black-40 f7 ml2">technology / de</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/hacker-news-api">Hacker News <span class="black-40 f7 ml2">technology / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/handelsblatt-api">Handelsblatt <span class="black-40 f7 ml2">business / de</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/ign-api">IGN <span class="black-40 f7 ml2">entertainment / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/il-sole-24-ore-api">Il Sole 24 Ore <span class="black-40 f7 ml2">business / it</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/independent-api">Independent <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/infobae-api">Infobae <span class="black-40 f7 ml2">general / es</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/info-money-api">InfoMoney <span class="black-40 f7 ml2">business / pt</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/la-gaceta-api">La Gaceta <span class="black-40 f7 ml2">general / es</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/la-nacion-api">La Nacion <span class="black-40 f7 ml2">general / es</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/la-repubblica-api">La Repubblica <span class="black-40 f7 ml2">general / it</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/le-monde-api">Le Monde <span class="black-40 f7 ml2">general / fr</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/lenta-api">Lenta <span class="black-40 f7 ml2">general / ru</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/lequipe-api">L&#39;equipe <span class="black-40 f7 ml2">sports / fr</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/les-echos-api">Les Echos <span class="black-40 f7 ml2">business / fr</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/liberation-api">Lib&#233;ration <span class="black-40 f7 ml2">general / fr</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/marca-api">Marca <span class="black-40 f7 ml2">sports / es</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/mashable-api">Mashable <span class="black-40 f7 ml2">entertainment / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/medical-news-today-api">Medical News Today <span class="black-40 f7 ml2">health / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/metro-api">Metro <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/mirror-api">Mirror <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/msnbc-api">MSNBC <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/mtv-news-api">MTV News <span class="black-40 f7 ml2">entertainment / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/mtv-news-uk-api">MTV News (UK) <span class="black-40 f7 ml2">entertainment / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/national-geographic-api">National Geographic <span class="black-40 f7 ml2">science / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/national-review-api">National Review <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/nbc-news-api">NBC News <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/news24-api">News24 <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/new-scientist-api">New Scientist <span class="black-40 f7 ml2">science / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/news-com-au-api">News.com.au <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/newsweek-api">Newsweek <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/new-york-magazine-api">New York Magazine <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/next-big-future-api">Next Big Future <span class="black-40 f7 ml2">science / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/nfl-news-api">NFL News <span class="black-40 f7 ml2">sports / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/nhl-news-api">NHL News <span class="black-40 f7 ml2">sports / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/nrk-api">NRK <span class="black-40 f7 ml2">general / no</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/politico-api">Politico <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/polygon-api">Polygon <span class="black-40 f7 ml2">entertainment / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/rbc-api">RBC <span class="black-40 f7 ml2">general / ru</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/recode-api">Recode <span class="black-40 f7 ml2">technology / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/reddit-r-all-api">Reddit /r/all <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/reuters-api">Reuters <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/rt-api">RT <span class="black-40 f7 ml2">general / ru</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/rte-api">RTE <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/rtl-nieuws-api">RTL Nieuws <span class="black-40 f7 ml2">general / nl</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/sabq-api">SABQ <span class="black-40 f7 ml2">general / ar</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/spiegel-online-api">Spiegel Online <span class="black-40 f7 ml2">general / de</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/svenska-dagbladet-api">Svenska Dagbladet <span class="black-40 f7 ml2">general / se</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/t3n-api">T3n <span class="black-40 f7 ml2">technology / de</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/talksport-api">TalkSport <span class="black-40 f7 ml2">sports / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/techcrunch-api">TechCrunch <span class="black-40 f7 ml2">technology / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/techcrunch-cn-api">TechCrunch (CN) <span class="black-40 f7 ml2">technology / zh</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/techradar-api">TechRadar <span class="black-40 f7 ml2">technology / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-american-conservative-api">The American Conservative <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-economist-api">The Economist <span class="black-40 f7 ml2">business / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-globe-and-mail-api">The Globe And Mail <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-guardian-au-api">The Guardian (AU) <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-guardian-uk-api">The Guardian (UK) <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-hill-api">The Hill <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-hindu-api">The Hindu <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-huffington-post-api">The Huffington Post <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-irish-times-api">The Irish Times <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-jerusalem-post-api">The Jerusalem Post <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-lad-bible-api">The Lad Bible <span class="black-40 f7 ml2">entertainment / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-new-york-times-api">The New York Times <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-next-web-api">The Next Web <span class="black-40 f7 ml2">technology / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-sport-bible-api">The Sport Bible <span class="black-40 f7 ml2">sports / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-telegraph-api">The Telegraph <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-times-of-india-api">The Times of India <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-verge-api">The Verge <span class="black-40 f7 ml2">technology / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-wall-street-journal-api">The Wall Street Journal <span class="black-40 f7 ml2">business / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-washington-post-api">The Washington Post <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/the-washington-times-api">The Washington Times <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/time-api">Time <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/usa-today-api">USA Today <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/vice-news-api">Vice News <span class="black-40 f7 ml2">general / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/wired-api">Wired <span class="black-40 f7 ml2">technology / en</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/wired-de-api">Wired.de <span class="black-40 f7 ml2">technology / de</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/wirtschafts-woche-api">Wirtschafts Woche <span class="black-40 f7 ml2">business / de</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/xinhua-net-api">Xinhua Net <span class="black-40 f7 ml2">general / zh</span></a>
+                </li>
+                <li class="mb3">
+                    <a class="color-inherit no-underline" href="/s/ynet-api">Ynet <span class="black-40 f7 ml2">general / he</span></a>
+                </li>
+        </ul>
+    </aside>
+
+    <main class="mw7 mt4 w-90">
+        
+        <!-- END Sidebar -->
+        <!-- Main content -->
+        <article class="col-sm-9 main-content" role="main">
+            <div class="flex items-center">
+                <img alt="CBS News" class="mr3" style="border-radius:3px; width:80px;" src="https://icon-locator.herokuapp.com/icon?url=http://www.cbsnews.com&size=70..120..200" referrerpolicy="no-referrer"/>
+                <h1 class="fw3 black-90"><strong>CBS News</strong> API</h1>
+                
+            </div>
+
+            <div class="callout callout-info">
+                <p class="lh-copy ma0">Get and search live headlines, articles, images, and other article metadata from <span class="fw6">CBS News</span> with our JSON API.</p>
+            </div>
+
+            <div class="black-40">
+                <div class="dib mr3" tooltip="Language: English"><i class="fa fa-commenting-o"></i> English</div>
+                <div class="dib mr3" tooltip="Country: United States"><i class="fa fa-globe"></i> United States</div>
+                <div class="dib" tooltip="Category: general"><i class="fa fa-tag"></i> General news</div>
+            </div>
+
+            <p class="lh-copy">CBS News: dedicated to providing the best in journalism under standards it pioneered at the dawn of radio and television and continue in the digital age.</p>
+            
+                <div class="tc mb3">
+                    <a href="/register" class="f4 dib ba no-underline ph4 pv3 br2 grow white bg-na-blue" style="line-height:1;">Get API key to start searching CBS News</a>
+                </div>
+
+            <hr />
+
+            <h2 class="black-90 fw3">Live examples</h2>
+
+            <div class="ba br2 bg-white-1 b--black-10 center mb3">
+                <div class="tc pv3" style="line-height:1;">Top headlines from CBS News</div>
+                <div class="flex items-center bb bt b--black-10 bg-na-grey-1">
+                    <div class="w-10 pv3 tc br b--black-10">
+                        <span class="label label-primary http-method">GET</span>
+                    </div>
+                    <div class="lh-copy pa3"><span class="http-url">https://newsapi.org/v2/top-headlines?<strong>sources=cbs-news</strong>&amp;apiKey=API_KEY</span></div>
+                </div>
+                <div id="live-example-1" class="json-wrapper" style="max-height:600px;">
+<div class="spinner">
+    <svg class="spinner-inner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+        <circle class="spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+    </svg>
+</div>
+                </div>
+
+                <script>
+            $(document).ready(function () {
+                $.ajax({
+                    url: '/v2/top-headlines?sources=cbs-news&apiKey=86f8b77c037b4cc989d5f046394aa9bd'
+                })
+                .done(function (data) {
+                    $('#live-example-1').JSONView(data);
+                })
+                .fail(function (response) {
+                    $('#live-example-1').JSONView(response.responseJSON);
+                })
+            })
+                </script>
+            </div>
+
+                <div class="ba br2 bg-white-1 b--black-10 center mb3">
+                    <div class="tc pv3" style="line-height:1;">Search all recent articles at CBS News</div>
+                    <div class="flex items-center bb bt b--black-10 bg-na-grey-1">
+                        <div class="w-10 pv3 tc br b--black-10">
+                            <span class="label label-primary http-method">GET</span>
+                        </div>
+                        <div class="lh-copy pa3"><span class="http-url">https://newsapi.org/v2/everything?<strong>sources</strong>=cbs-news&amp;<strong>apiKey</strong>=API_KEY</span></div>
+                    </div>
+                    <div id="live-example-2" class="json-wrapper" style="max-height:600px;">
+<div class="spinner">
+    <svg class="spinner-inner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+        <circle class="spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+    </svg>
+</div>
+                    </div>
+
+                    <script>
+                        $(document).ready(function () {
+                            $.ajax({
+                                url: '/v2/everything?sources=cbs-news&apiKey=86f8b77c037b4cc989d5f046394aa9bd'
+                            })
+                            .done(function (data) {
+                                $('#live-example-2').JSONView(data);
+                            })
+                            .fail(function (response) {
+                                $('#live-example-2').JSONView(response.responseJSON);
+                            })
+                        })
+                    </script>
+                </div>
+
+            <hr />
+
+            <p class="lh-copy">Our API covers more than just CBS News - <a href="/">search for live articles from over 30,000 other news sources and blogs</a>.</p>
+
+        </article>
+    </main>
+</div>
+
+<footer class="bg-na-coal">
+    <p class="white f3 lh-copy pa4 mt0 mb3 tc">Need to talk to someone? <a class="na-green no-underline" href="mailto:support@newsapi.org">Email us</a> or <a class="na-green no-underline" href="https://twitter.com/NewsAPIorg" target="_blank">send us a tweet</a>.</p>
+    
+    <div class="mw7 w-80 mb3 flex-ns center white-80 fw1">
+        <div class="w-third-ns">
+            <h6 class="f6 ttu mb2 white">News API</h6>
+            <div class="mv3"><a class="white-60 no-underline" href="/docs/get-started">Get started</a></div>
+            <div class="mv3"><a class="white-60 no-underline" href="/docs">Documentation</a></div>
+            <div class="mv3"><a class="white-60 no-underline" href="/sources">News sources</a></div>
+            <div class="mv3"><a class="white-60 no-underline" href="/pricing">Pricing</a></div>
+        </div>
+        <div class="w-third-ns">
+            <h6 class="f6 ttu mb2 white">Company</h6>
+            <div class="mv3"><a class="white-60 no-underline" href="/our-team">Our team</a></div>
+            <div class="mv3">
+                <div style="width:100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    <a class="white-60 no-underline" href="/blog/">Blog</a> - <a id="blog-latest-article-title" class="white-80"></a>
+                </div>
+            </div>
+            <div class="mv3"><a class="white-60 no-underline" href="/privacy" target="_blank">Privacy policy</a></div>
+            <div class="mv3"><a class="white-60 no-underline" href="/terms" target="_blank">Terms of service</a></div>
+        </div>
+        <div class="w-third-ns tr">
+            <h6 class="f6 ttu mb2 white">Support</h6>
+            <div class="mv3"><a class="color-inherit no-underline" href="mailto:support@newsapi.org"><i class="fa fa-envelope"></i> Contact</a></div>
+            <div class="mv3"><a class="color-inherit no-underline" href="https://twitter.com/NewsAPIorg" target="_blank"><i class="fa fa-twitter"></i> Twitter</a></div>
+            <div class="mv3">&nbsp;</div>
+            <div class="mv3"><a class="color-inherit no-underline" href="https://github.com/News-API-gh" target="_blank"><i class="fa fa-github"></i> Github</a></div>
+        </div>
+    </div>
+    <div >
+        <p class="tc white f7 ma0 pv3"></p>
+    </div>
+
+    <script>
+        const $blogLatestArticleTitle = $('#blog-latest-article-title');
+        $.getJSON('https://newsapi.org/blog/feed/json', function (response) {
+            $blogLatestArticleTitle.text(response.items[0].title);
+            $blogLatestArticleTitle.attr('href', response.items[0].url);
+        })
+    </script>
+</footer>
+
+    <script src="/js/jquery.jsonview.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Ladda/1.0.5/spin.min.js"></script>
+    <script src="/js/ladda.js"></script>
+    <script src="/js/v2.js?v=1.0.6815.41096"></script>
+</body>
+</html>

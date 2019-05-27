@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <title>Tl;DrNews - About</title>
+        <link rel="stylesheet" type="text/css" href="styles/ink/css/ink.min.css"> <!-- inks css file -->
+        <link rel="stylesheet" type="text/css" href="styles/main.css"> <!-- inks css file -->
+        <style>
+            pre {
+                word-wrap: break-word;
+                white-space: pre-wrap;
+                
+            }
+        </style>
+        
+    </head>
+    
+    
+    
+    <body>
+        <nav class="ink-navigation fixed-nav">
+            <ul class="menu horizontal black">
+                <li><a href="/" id="logo">Tl;Dr<span style="color:#e14283;">News</span></a></li>
+            </ul>
+        </nav>
+        <div class="ink-grid">
+            <div class="column-group">
+                <div class="all-70 medium-100 small-100 tiny-100 article article-text">
+                    <h2>About</h2>
+                    <p>Tl;DrNews is a site which automatically summarizes articles from around the web and makes those summaries available in a single newsfeed. Tl;DrNews is not affiliated with any of the news sources presented. All content belongs to their respective owners.</p>
+                    <p>Tl;DrNews is powered by <a class="title" href="http://newsapi.org">NewsApi</a>.</p>
+                    <h2>API</h2>
+                    <p>In addition, Tl;DrNews provides an API of its own, which can be accessed at /api. The API supports searching summaries by content, source, and date range. See examples of usage below.</p>
+                    <pre>
+<b>endpoint: /api/top</b>
+parameters:
+    - <b>sources</b>: Comma-separated list of sources to pull from
+    - <b>search</b>: String to search in the article title and summary
+    - <b>timeBefore</b>: filter for articles before this date (in ISO format)
+    - <b>timeAfter</b>: filter for articles after this date (in ISO format)
+                       
+examples:
+    /api/top?sources=engadget,ars technica&search=drone&timeAfter=2018-09-06
+    /api/top?sources=cbs news,abc news,techradar&timeAfter=2018-09-06
+    
+returns:
+    [
+        {
+            <b>title</b>: Title of the article
+            <b>source</b>: Source of the article
+            <b>url</b>: Url to the article
+            <b>imageUrl</b>: Url to the image
+            <b>summary</b>: Summary of the article
+            <b>date</b>: Date (in ISO format)
+        }
+    ]
+    
+<b>endpoint: /api/search/[searchterm]</b>
+parameters:
+    - <b>[searchterm]</b>: String to search for in the title/summary
+   
+                       
+examples:
+    /api/search/3D printing
+                    </pre>
+                    
+                    
+                </div>
+            </div>
+            
+        </div>
+        <script src="scripts/home.js" type="text/javascript"></script>
+    </body>
+
+</html>
